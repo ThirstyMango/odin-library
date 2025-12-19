@@ -1,0 +1,25 @@
+:root {
+  /* Colors */
+  --cl-light: #ecf6fd;
+  --cl-white: #ffffff;
+  --cl-dark: #111217;
+  --cl-primary: #c4c6d1;
+  --cl-secondary: #3480ef;
+  --cl-info: #f74c7e;
+  --cl-success: #18a360;
+  --cl-warning: #e2cb19;
+  --cl-danger: #f01e0b;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-l: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-xxl: 3rem;
+
+  /* Border sizes */
+  --border-sm: 0.1rem;
+  --border-md: 0.3rem;
+  --border-l: 0.5rem;
+}

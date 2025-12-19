@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=`, initial-scale=1.0" />
+    <title>Odin - library</title>
+    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/boilerplate.css" />
+    <link rel="stylesheet" href="./styles/variables.css" />
+    <script defer src="./main.js"></script>
+  </head>
+  <style>
+    @font-face {
+      font-family: InterVariable;
+      font-style: normal;
+      font-weight: 100 900;
+      font-display: swap;
+      src: url("./fonts/InterVariable.woff2") format("woff2");
+    }
+    body {
+      font-family: InterVariable Arial, Helvetica, sans-serif;
+    }
+  </style>
+  <body>
+    <header class="header">
+      <h1>The odin library</h1>
+    </header>
+    <main class="main">
+      <table class="table">
+        <caption>
+          All books on one spot
+        </caption>
+        <thead class="table__header">
+          <tr class="table__row table__row--header">
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Author</th>
+            <th scope="col">Pages</th>
+            <th scope="col">Read</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody id="library" class="table__body">
+          <tr class="table__row" data-id="id">
+            <td>12345fss</td>
+            <td>Hobit</td>
+            <td>J.R.R. Tolkien</td>
+            <td class="table__data--num">341</td>
+            <td>
+              <input class="checkbox" type="checkbox" name="read_{id}" />
+            </td>
+            <td>
+              <input
+                class="range"
+                type="range"
+                name="rating-{id}"
+                min="1"
+                max="10"
+                value="1"
+              />
+              <output>1</output>
+            </td>
+            <td>
+              <button class="btn btn--alert" type="button">&#x2715;</button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot class="table__footer">
+          <tr>
+            <td colspan="7">
+              <button class="btn btn--main" type="button">+</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </main>
+    <footer class="footer">
+      <p class="footer__text">
+        Made with &#10084; by ThirstyMango
+        <a
+          href="https://github.com/ThirstyMango/odin-library"
+          class="footer__link"
+        >
+          <img class="footer__icon" src="./imgs/github.svg" alt="github-svg" />
+        </a>
+      </p>
+    </footer>
+  </body>
+</html>

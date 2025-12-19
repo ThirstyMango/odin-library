@@ -1,0 +1,109 @@
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-md);
+}
+
+.main {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* TABLE */
+caption {
+  margin-bottom: var(--spacing-l);
+}
+
+td {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: var(--border-sm) solid var(--cl-primary);
+}
+
+th {
+  font-size: 1.1rem;
+  padding: var(--spacing-sm) var(--spacing-l);
+}
+
+.table {
+  border-collapse: collapse;
+}
+
+.table__header {
+  background: var(--cl-secondary);
+  color: var(--cl-white);
+}
+
+.table__body > :nth-child(2n) {
+  background-color: var(--cl-light);
+}
+
+/* BTNS */
+.btn {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--border-md);
+  cursor: pointer;
+  transition: all 300ms ease-in-out;
+  border: none;
+  outline: none;
+}
+
+.btn:hover {
+  opacity: 1;
+}
+
+.btn--main {
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.btn--main:hover {
+  border-radius: 50%;
+  color: var(--cl-white);
+  background-color: var(--cl-secondary);
+}
+
+.btn--alert:hover,
+.btn--alert:focus-visible {
+  border-radius: 50%;
+  color: var(--cl-white);
+  background-color: var(--cl-danger);
+}
+
+.checkbox {
+  width: 1.3rem;
+  height: 1.3rem;
+  position: relative;
+  top: 0.2rem;
+  cursor: pointer;
+}
+
+.checkbox:focus-visible {
+  outline-color: var(--cl-primary);
+}
+
+output {
+  position: relative;
+  top: -0.2rem;
+  left: 0.2rem;
+}
+.range {
+  max-width: 6rem;
+}
+
+/* FOOTER */
+.footer__text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+}
+
+.footer__icon {
+  width: 2.5rem;
+}
