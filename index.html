@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="./styles/style.css" />
     <link rel="stylesheet" href="./styles/boilerplate.css" />
     <link rel="stylesheet" href="./styles/variables.css" />
-    <script defer src="./main.js"></script>
+    <script defer type="module" src="./scripts/DOM.js"></script>
+    <script defer type="module" src="./main.js"></script>
   </head>
   <style>
     @font-face {
@@ -41,35 +42,11 @@
             <th scope="col">Action</th>
           </tr>
         </thead>
-        <tbody id="library" class="table__body">
-          <tr class="table__row" data-id="id">
-            <td>12345fss</td>
-            <td>Hobit</td>
-            <td>J.R.R. Tolkien</td>
-            <td class="table__data--num">341</td>
-            <td>
-              <input class="checkbox" type="checkbox" name="read_{id}" />
-            </td>
-            <td>
-              <input
-                class="range"
-                type="range"
-                name="rating-{id}"
-                min="1"
-                max="10"
-                value="1"
-              />
-              <output>1</output>
-            </td>
-            <td>
-              <button class="btn btn--alert" type="button">&#x2715;</button>
-            </td>
-          </tr>
-        </tbody>
+        <tbody id="library" class="table__body"></tbody>
         <tfoot class="table__footer">
           <tr>
             <td colspan="7">
-              <button class="btn btn--main" type="button">+</button>
+              <button class="btn btn--main" type="button" id="btnAdd">+</button>
             </td>
           </tr>
         </tfoot>
