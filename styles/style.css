@@ -1,3 +1,22 @@
+/* Class for hiding elements but keeping them visible to screen readers */
+
+.visually-hidden {
+  position: absolute;
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.hidden {
+  display: none;
+}
+
 body {
   min-height: 100vh;
   display: flex;
@@ -22,6 +41,15 @@ caption {
 td {
   padding: var(--spacing-sm) var(--spacing-md);
   border: var(--border-sm) solid var(--cl-primary);
+}
+
+td:nth-child(2),
+td:nth-child(3) {
+  text-align: left;
+}
+
+td:nth-child(4) {
+  text-align: end;
 }
 
 th {
@@ -53,8 +81,11 @@ th {
   outline: none;
 }
 
-.btn:hover {
+.btn:hover,
+.btn:focus-visible {
   opacity: 1;
+  border-radius: 30%;
+  color: var(--cl-white);
 }
 
 .btn--main {
@@ -63,16 +94,17 @@ th {
 }
 
 .btn--main:hover {
-  border-radius: 50%;
-  color: var(--cl-white);
   background-color: var(--cl-secondary);
 }
 
 .btn--alert:hover,
 .btn--alert:focus-visible {
-  border-radius: 50%;
-  color: var(--cl-white);
   background-color: var(--cl-danger);
+}
+
+.btn--success:hover,
+.btn--success:focus-visible {
+  background-color: var(--cl-success);
 }
 
 .checkbox {
@@ -87,13 +119,39 @@ th {
   outline-color: var(--cl-primary);
 }
 
-output {
-  position: relative;
-  top: -0.2rem;
-  left: 0.2rem;
-}
 .range {
-  max-width: 6rem;
+  cursor: grab;
+  width: 6rem;
+}
+
+/* INPUTS */
+.input__field {
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: 0.3rem;
+  border: 0.1rem solid var(--cl-primary);
+}
+
+.input__field:focus:user-invalid {
+  border-color: var(--cl-danger);
+}
+
+.input__field:valid {
+  border-color: var(--cl-success);
+}
+
+.input__field:focus-visible {
+  outline: none;
+  border: 0.1rem solid var(--cl-dark);
+}
+
+.input__field:disabled {
+  text-align: center;
+  background-color: var(--cl-white);
+  border: none;
+}
+
+.input__field:not(:disabled) {
+  max-width: 8rem;
 }
 
 /* FOOTER */

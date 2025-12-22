@@ -44,9 +44,110 @@
         </thead>
         <tbody id="library" class="table__body"></tbody>
         <tfoot class="table__footer">
-          <tr>
+          <form action="#" method="post">
+            <tr class="table__row table__row--input hidden" id="input-row">
+              <td class="input">
+                <label for="input-id" class="input__label visually-hidden">
+                  Book id
+                </label>
+                <input
+                  type="text"
+                  class="input__field"
+                  id="input-id"
+                  disabled
+                  placeholder="Generated automatically"
+                />
+              </td>
+              <td class="input">
+                <label for="input-name" class="input__label visually-hidden">
+                  Book name
+                </label>
+                <input
+                  type="text"
+                  class="input__field"
+                  id="input-name"
+                  placeholder="Name"
+                  required
+                />
+              </td>
+              <td class="input">
+                <label for="input-author" class="input__label visually-hidden">
+                  Book author
+                </label>
+                <input
+                  type="text"
+                  class="input__field"
+                  id="input-author"
+                  placeholder="Author"
+                  required
+                />
+              </td>
+              <td class="input">
+                <label for="input-pages" class="input__label visually-hidden">
+                  Book pages
+                </label>
+                <input
+                  type="number"
+                  class="input__field"
+                  id="input-pages"
+                  placeholder="Pages"
+                  required
+                />
+              </td>
+              <td class="input">
+                <label for="input-read" class="input__label visually-hidden">
+                  Book read
+                </label>
+                <input
+                  type="checkbox"
+                  class="input__field checkbox"
+                  id="input-read"
+                  placeholder="Read"
+                />
+              </td>
+              <td class="input">
+                <label for="input-rating" class="input__label visually-hidden">
+                  Book rating
+                </label>
+
+                <input
+                  type="range"
+                  min="1"
+                  max="10"
+                  class="input__field range"
+                  id="input-rating"
+                  placeholder="Rating"
+                />
+              </td>
+              <td class="input">
+                <button
+                  type="submit"
+                  class="btn btn--success"
+                  data-element="confirm"
+                >
+                  &#x2714;
+                </button>
+                <button
+                  type="button"
+                  class="btn btn--alert"
+                  data-element="cancel"
+                >
+                  &#x2715;
+                </button>
+              </td>
+            </tr>
+          </form>
+
+          <tr id="add-row" class="table__row table__row--add">
             <td colspan="7">
-              <button class="btn btn--main" type="button" id="btnAdd">+</button>
+              <button
+                class="btn btn--main"
+                type="button"
+                id="btnAdd"
+                data-element="add"
+              >
+                +
+              </button>
             </td>
           </tr>
         </tfoot>

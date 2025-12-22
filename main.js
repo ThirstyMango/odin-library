@@ -39,11 +39,25 @@ const handleRatingClick = function handleRatingClick(targetEl) {
   const bookId = bookEl.dataset.id;
 
   myLibrary.setBookParameter(bookId, "rating", targetEl.value);
-  console.log(myLibrary.findBookById(bookId));
+};
+
+const handleAddClick = function handleAddClick() {
+  myDom.inputRow.classList.remove("hidden");
+  myDom.addRow.classList.add("hidden");
+};
+
+const handleConfirmClick = function handleConfirmClick() {
+  // TODO
+};
+
+const handleCancelClick = function handleCancelClick() {
+  myDom.inputRow.classList.add("hidden");
+  myDom.addRow.classList.remove("hidden");
 };
 
 const handleClick = function handleClick(e) {
   const targetType = e.target.dataset.element;
+
   switch (targetType) {
     case "read":
       handleReadClick(e.target);
@@ -54,8 +68,17 @@ const handleClick = function handleClick(e) {
     case "remove":
       handleRemoveClick(e.target);
       break;
+    case "add":
+      handleAddClick();
+      break;
+    case "confirm":
+      handleConfirmClick();
+      break;
+    case "cancel":
+      handleCancelClick();
+      break;
   }
 };
 
 // Add Event listener
-myDom.library.addEventListener("click", handleClick);
+myDom.table.addEventListener("click", handleClick);
