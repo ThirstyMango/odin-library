@@ -4,6 +4,12 @@ function DOM() {
   this.btnAdd = document.getElementById("btnAdd");
   this.inputRow = document.getElementById("input-row");
   this.addRow = document.getElementById("add-row");
+  this.inputId = document.getElementById("input-id");
+  this.inputName = document.getElementById("input-name");
+  this.inputAuthor = document.getElementById("input-author");
+  this.inputPages = document.getElementById("input-pages");
+  this.inputRead = document.getElementById("input-read");
+  this.inputRating = document.getElementById("input-rating");
   this.findBookElFromChild = function (childEl) {
     if (childEl.dataset.id) {
       return childEl;

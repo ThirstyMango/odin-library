@@ -41,13 +41,69 @@ const handleRatingClick = function handleRatingClick(targetEl) {
   myLibrary.setBookParameter(bookId, "rating", targetEl.value);
 };
 
+const isFormDataValid = function isFormDataValid(
+  name,
+  author,
+  pages,
+  read,
+  rating
+) {
+  const isNameValid = name.length > 0;
+  const isAuthorValid = author.length > 0;
+  const isReadValid = typeof read === "boolean";
+  const isPagesValid =
+    pages !== "" &&
+    pages !== " " &&
+    !isNaN(pages) &&
+    Number.isInteger(parseFloat(pages));
+  const isRatingValid =
+    rating !== "" &&
+    rating !== " " &&
+    !isNaN(rating) &&
+    rating >= 1 &&
+    rating <= 10 &&
+    Number.isInteger(parseFloat(rating));
+
+  return (
+    isNameValid && isAuthorValid && isReadValid && isPagesValid && isRatingValid
+  );
+};
+
+const getBookData = function getBookData() {
+  const name = myDom.inputName.value;
+  const author = myDom.inputAuthor.value;
+  const pages = myDom.inputPages.value;
+  const read = myDom.inputRead.checked;
+  console.log(myDom.inputRating);
+  const rating = myDom.inputRating.value;
+  return [name, author, pages, read, rating];
+};
+
+const clearFormData = function clearFormData() {
+  myDom.inputName.value = "";
+  myDom.inputAuthor.value = "";
+  myDom.inputPages.value = "";
+  myDom.inputRead.checked = false;
+  myDom.inputRating.value = 1;
+};
+
+const handleConfirmClick = function handleConfirmClick(e) {
+  const newBookData = getBookData();
+
+  if (!isFormDataValid(...newBookData)) {
+    return;
+  }
+
+  e.preventDefault();
+  clearFormData();
+  const newBook = new Book(...newBookData);
+  myLibrary.addBookToLibrary(newBook);
+  myView.displayBook(newBook, myDom.library);
+};
+
 const handleAddClick = function handleAddClick() {
   myDom.inputRow.classList.remove("hidden");
   myDom.addRow.classList.add("hidden");
-};
-
-const handleConfirmClick = function handleConfirmClick() {
-  // TODO
 };
 
 const handleCancelClick = function handleCancelClick() {
@@ -68,11 +124,11 @@ const handleClick = function handleClick(e) {
     case "remove":
       handleRemoveClick(e.target);
       break;
+    case "confirm":
+      handleConfirmClick(e);
+      break;
     case "add":
       handleAddClick();
-      break;
-    case "confirm":
-      handleConfirmClick();
       break;
     case "cancel":
       handleCancelClick();
