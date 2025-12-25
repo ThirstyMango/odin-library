@@ -1,7 +1,6 @@
 import { DOM } from "./scripts/DOM.js";
 import { View } from "./scripts/View.js";
 import { Library } from "./scripts/Library.js";
-import { Book } from "./scripts/Book.js";
 
 const myDom = new DOM();
 const myView = new View();
@@ -14,9 +13,8 @@ const testingData = [
   ["Golem", "Gustav Meyrink", 331, true, 3],
 ];
 
-const books = testingData.map((bookArr) => new Book(...bookArr));
+testingData.forEach((bookData) => myLibrary.addBookToLibrary(...bookData));
 
-myLibrary.addBooksToLibrary(books);
 myView.displayLibrary(myLibrary.data, myDom.library);
 
 // Helper functions
@@ -82,8 +80,7 @@ const handleConfirmClick = function handleConfirmClick(e) {
 
   e.preventDefault();
   clearFormData();
-  const newBook = new Book(...newBookData);
-  myLibrary.addBookToLibrary(newBook);
+  const newBook = myLibrary.addBookToLibrary(...newBookData);
   myView.displayBook(newBook, myDom.library);
   myView.displayTempMessage(myDom.messager, "Succesfully created", true);
 
@@ -121,6 +118,8 @@ const handleClick = function handleClick(e) {
       handleCancelClick();
       break;
   }
+
+  console.log(myLibrary.data);
 };
 
 // Add Event listener

@@ -1,3 +1,5 @@
+import { Book } from "./Book.js";
+
 function Library() {
   this.data = [];
 
@@ -14,14 +16,10 @@ function Library() {
     cBook[parKey] = parValue;
   };
 
-  this.addBookToLibrary = function (book) {
-    this.data.push(book);
-  };
-
-  this.addBooksToLibrary = function (books) {
-    for (const book of books) {
-      this.addBookToLibrary(book);
-    }
+  this.addBookToLibrary = function (name, author, pages, read) {
+    const bookToAdd = new Book(name, author, pages, read);
+    this.data.push(bookToAdd);
+    return bookToAdd;
   };
 }
 
