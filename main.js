@@ -53,6 +53,15 @@ const clearFormData = function clearFormData() {
 const handleRemoveClick = function handleRemoveClick(targetEl) {
   const bookEl = myDom.findBookElFromChild(targetEl);
   const bookId = bookEl.dataset.id;
+  const book = myLibrary.findBookById(bookId);
+
+  if (
+    !confirm(
+      `Do you wish to remove ${book.name} by ${book.author} from the library?`
+    )
+  )
+    return;
+
   myLibrary.removeBookFromLibrary(bookId);
   bookEl.remove();
   myView.displayTempMessage(myDom.messager, "Succesfully removed", false);

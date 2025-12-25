@@ -37,7 +37,7 @@ body {
 /* TABLE */
 caption {
   position: relative;
-  margin-bottom: var(--spacing-l);
+  margin-bottom: var(--spacing-xl);
 }
 
 td {
@@ -170,7 +170,7 @@ th {
   top: 0.5rem;
   left: 50%;
   transform: translate(-50%);
-  top: 1.3rem;
+  top: 1.5rem;
 }
 
 .message--success {
