@@ -9,18 +9,6 @@ function View() {
     return checkboxEl;
   };
 
-  this.buildSliderlement = function (value, bookId) {
-    const sliderEl = document.createElement("input");
-    sliderEl.type = "range";
-    sliderEl.classList.add("range");
-    sliderEl.dataset.element = "rating";
-    sliderEl.name = `rating_${bookId}`;
-    sliderEl.min = "1";
-    sliderEl.max = "10";
-    sliderEl.value = value;
-    return sliderEl;
-  };
-
   this.buildRemoveButtonElement = function () {
     const removeBtnEl = document.createElement("button");
     removeBtnEl.setAttribute("type", "button");
@@ -44,10 +32,6 @@ function View() {
         case "read":
           const checkboxEl = this.buildcheckboxElement(value, book.id);
           td.appendChild(checkboxEl);
-          break;
-        case "rating":
-          const sliderEl = this.buildSliderlement(value, book.id);
-          td.appendChild(sliderEl);
           break;
         default:
           td.textContent = value;
@@ -74,6 +58,19 @@ function View() {
     for (let book of library) {
       this.displayBook(book, container);
     }
+  };
+
+  this.displayTempMessage = function (messageElem, message, success) {
+    messageElem.textContent = message;
+    success
+      ? messageElem.classList.add("message--success")
+      : messageElem.classList.add("message--alert");
+    messageElem.classList.remove("hidden");
+    setTimeout(() => {
+      messageElem.classList.remove("message--success");
+      messageElem.classList.remove("message--alert");
+      messageElem.classList.add("hidden");
+    }, "2000");
   };
 }
 

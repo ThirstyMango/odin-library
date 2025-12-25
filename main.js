@@ -19,35 +19,8 @@ const books = testingData.map((bookArr) => new Book(...bookArr));
 myLibrary.addBooksToLibrary(books);
 myView.displayLibrary(myLibrary.data, myDom.library);
 
-// Event listeners
-
-const handleRemoveClick = function handleRemoveClick(targetEl) {
-  const bookEl = myDom.findBookElFromChild(targetEl);
-  const bookId = bookEl.dataset.id;
-  myLibrary.removeBookFromLibrary(bookId);
-  bookEl.remove();
-};
-
-const handleReadClick = function handleReadClick(targetEl) {
-  const bookEl = myDom.findBookElFromChild(targetEl);
-  const bookId = bookEl.dataset.id;
-  myLibrary.setBookParameter(bookId, "read", targetEl.checked);
-};
-
-const handleRatingClick = function handleRatingClick(targetEl) {
-  const bookEl = myDom.findBookElFromChild(targetEl);
-  const bookId = bookEl.dataset.id;
-
-  myLibrary.setBookParameter(bookId, "rating", targetEl.value);
-};
-
-const isFormDataValid = function isFormDataValid(
-  name,
-  author,
-  pages,
-  read,
-  rating
-) {
+// Helper functions
+const isFormDataValid = function isFormDataValid(name, author, pages, read) {
   const isNameValid = name.length > 0;
   const isAuthorValid = author.length > 0;
   const isReadValid = typeof read === "boolean";
@@ -56,17 +29,8 @@ const isFormDataValid = function isFormDataValid(
     pages !== " " &&
     !isNaN(pages) &&
     Number.isInteger(parseFloat(pages));
-  const isRatingValid =
-    rating !== "" &&
-    rating !== " " &&
-    !isNaN(rating) &&
-    rating >= 1 &&
-    rating <= 10 &&
-    Number.isInteger(parseFloat(rating));
 
-  return (
-    isNameValid && isAuthorValid && isReadValid && isPagesValid && isRatingValid
-  );
+  return isNameValid && isAuthorValid && isReadValid && isPagesValid;
 };
 
 const getBookData = function getBookData() {
@@ -74,9 +38,7 @@ const getBookData = function getBookData() {
   const author = myDom.inputAuthor.value;
   const pages = myDom.inputPages.value;
   const read = myDom.inputRead.checked;
-  console.log(myDom.inputRating);
-  const rating = myDom.inputRating.value;
-  return [name, author, pages, read, rating];
+  return [name, author, pages, read];
 };
 
 const clearFormData = function clearFormData() {
@@ -84,7 +46,22 @@ const clearFormData = function clearFormData() {
   myDom.inputAuthor.value = "";
   myDom.inputPages.value = "";
   myDom.inputRead.checked = false;
-  myDom.inputRating.value = 1;
+};
+
+// Event listeners
+
+const handleRemoveClick = function handleRemoveClick(targetEl) {
+  const bookEl = myDom.findBookElFromChild(targetEl);
+  const bookId = bookEl.dataset.id;
+  myLibrary.removeBookFromLibrary(bookId);
+  bookEl.remove();
+  myView.displayTempMessage(myDom.messager, "Succesfully removed", false);
+};
+
+const handleReadClick = function handleReadClick(targetEl) {
+  const bookEl = myDom.findBookElFromChild(targetEl);
+  const bookId = bookEl.dataset.id;
+  myLibrary.setBookParameter(bookId, "read", targetEl.checked);
 };
 
 const handleConfirmClick = function handleConfirmClick(e) {
@@ -99,6 +76,10 @@ const handleConfirmClick = function handleConfirmClick(e) {
   const newBook = new Book(...newBookData);
   myLibrary.addBookToLibrary(newBook);
   myView.displayBook(newBook, myDom.library);
+  myView.displayTempMessage(myDom.messager, "Succesfully created", true);
+
+  myDom.inputRow.classList.add("hidden");
+  myDom.addRow.classList.remove("hidden");
 };
 
 const handleAddClick = function handleAddClick() {
@@ -109,17 +90,14 @@ const handleAddClick = function handleAddClick() {
 const handleCancelClick = function handleCancelClick() {
   myDom.inputRow.classList.add("hidden");
   myDom.addRow.classList.remove("hidden");
+  clearFormData();
 };
 
 const handleClick = function handleClick(e) {
   const targetType = e.target.dataset.element;
-
   switch (targetType) {
     case "read":
       handleReadClick(e.target);
-      break;
-    case "rating":
-      handleRatingClick(e.target);
       break;
     case "remove":
       handleRemoveClick(e.target);

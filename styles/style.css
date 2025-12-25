@@ -14,7 +14,7 @@
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 body {
@@ -31,10 +31,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  overflow-x: auto;
 }
 
 /* TABLE */
 caption {
+  position: relative;
   margin-bottom: var(--spacing-l);
 }
 
@@ -119,11 +121,6 @@ th {
   outline-color: var(--cl-primary);
 }
 
-.range {
-  cursor: grab;
-  width: 6rem;
-}
-
 /* INPUTS */
 .input__field {
   padding: var(--spacing-xs) var(--spacing-md);
@@ -164,4 +161,44 @@ th {
 
 .footer__icon {
   width: 2.5rem;
+}
+
+/* User-message */
+.message {
+  font-weight: 700;
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+  transform: translate(-50%);
+  top: 1.3rem;
+}
+
+.message--success {
+  color: var(--cl-success);
+}
+
+.message--success:before,
+.message--success:after {
+  content: "🎉";
+}
+
+.message--alert {
+  color: var(--cl-danger);
+}
+
+.message--alert:before,
+.message--alert:after {
+  content: "❌";
+}
+
+@media (max-width: 760px) {
+  th:first-child,
+  td:first-child:not([data-cell="add"]) {
+    display: none;
+  }
+
+  th,
+  td {
+    padding: var(--spacing-xs) var(--spacing-xs);
+  }
 }

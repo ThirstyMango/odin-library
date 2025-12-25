@@ -9,7 +9,7 @@ function DOM() {
   this.inputAuthor = document.getElementById("input-author");
   this.inputPages = document.getElementById("input-pages");
   this.inputRead = document.getElementById("input-read");
-  this.inputRating = document.getElementById("input-rating");
+  this.messager = document.querySelector(".message");
   this.findBookElFromChild = function (childEl) {
     if (childEl.dataset.id) {
       return childEl;
