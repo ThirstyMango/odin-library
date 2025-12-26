@@ -68,7 +68,7 @@ function View() {
     messageElem.classList.remove("hidden");
     setTimeout(() => {
       messageElem.classList.remove("message--success");
-      messageElem.classList.remove("messag--alert");
+      messageElem.classList.remove("message--alert");
       messageElem.classList.add("hidden");
     }, "2000");
   };

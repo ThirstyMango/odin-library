@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=`, initial-scale=1.0" />
-    <title>Odin - library</title>
-    <link rel="stylesheet" href="./styles/style.css" />
-    <link rel="stylesheet" href="./styles/boilerplate.css" />
-    <link rel="stylesheet" href="./styles/variables.css" />
-    <script defer type="module" src="./scripts/DOM.js"></script>
-    <script defer type="module" src="./main.js"></script>
-  </head>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=`, initial-scale=1.0">
+  <title>Odin - library</title>
+  <link rel="stylesheet"
+        href="./styles/style.css">
+  <link rel="stylesheet"
+        href="./styles/boilerplate.css">
+  <link rel="stylesheet"
+        href="./styles/variables.css">
+  <script type="module"
+          src="./scripts/DOM.js"></script>
+  <script type="module"
+          src="./main.js"></script>
   <style>
     @font-face {
       font-family: InterVariable;
@@ -18,138 +24,140 @@
       font-display: swap;
       src: url("./fonts/InterVariable.woff2") format("woff2");
     }
+
     body {
       font-family: InterVariable Arial, Helvetica, sans-serif;
     }
   </style>
-  <body>
-    <header class="header">
-      <h1>The odin library</h1>
-    </header>
-    <main class="main">
-      <table class="table">
-        <caption>
-          All books on one spot
-          <p class="message hidden">Message to display to user after actions</p>
-        </caption>
-        <thead class="table__header">
-          <tr class="table__row table__row--header">
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Author</th>
-            <th scope="col">Pages</th>
-            <th scope="col">Read</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody id="library" class="table__body"></tbody>
-        <tfoot class="table__footer">
-          <form action="#" method="post">
-            <tr class="table__row table__row--input hidden" id="input-row">
-              <td class="input">
-                <label for="input-id" class="input__label visually-hidden">
-                  Book id
-                </label>
-                <input
-                  type="text"
-                  class="input__field"
-                  id="input-id"
-                  disabled
-                  placeholder="Generated automatically"
-                />
-              </td>
-              <td class="input">
-                <label for="input-name" class="input__label visually-hidden">
-                  Book name
-                </label>
-                <input
-                  type="text"
-                  class="input__field"
-                  id="input-name"
-                  placeholder="Name"
-                  required
-                />
-              </td>
-              <td class="input">
-                <label for="input-author" class="input__label visually-hidden">
-                  Book author
-                </label>
-                <input
-                  type="text"
-                  class="input__field"
-                  id="input-author"
-                  placeholder="Author"
-                  required
-                />
-              </td>
-              <td class="input">
-                <label for="input-pages" class="input__label visually-hidden">
-                  Book pages
-                </label>
-                <input
-                  type="number"
-                  class="input__field"
-                  id="input-pages"
-                  placeholder="Pages"
-                  required
-                />
-              </td>
-              <td class="input">
-                <label for="input-read" class="input__label visually-hidden">
-                  Book read
-                </label>
-                <input
-                  type="checkbox"
-                  class="input__field checkbox"
-                  id="input-read"
-                  placeholder="Read"
-                />
-              </td>
+</head>
 
-              <td class="input">
-                <button
-                  type="submit"
-                  class="btn btn--success"
-                  data-element="confirm"
-                >
-                  &#x2714;
-                </button>
-                <button
-                  type="button"
-                  class="btn btn--alert"
-                  data-element="cancel"
-                >
-                  &#x2715;
-                </button>
-              </td>
-            </tr>
-          </form>
+<body>
+  <header class="header">
+    <h1>The odin library</h1>
+  </header>
+  <main class="main">
+    <form id="input-form"
+          action="#"
+          method="post"></form>
+    <table class="table">
+      <caption>
+        All books on one spot
+        <p class="message hidden">Message to display to user after actions</p>
+      </caption>
+      <thead class="table__header">
+        <tr class="table__row table__row--header">
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Author</th>
+          <th scope="col">Pages</th>
+          <th scope="col">Read</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody id="library"
+             class="table__body"></tbody>
+      <tfoot class="table__footer">
+        <tr class="table__row table__row--input hidden"
+            id="input-row">
+          <td class="input">
+            <label for="input-id"
+                   class="input__label visually-hidden">
+              Book id
+            </label>
+            <input type="text"
+                   class="input__field"
+                   id="input-id"
+                   disabled
+                   placeholder="Generated automatically"
+                   form="input-form">
+          </td>
+          <td class="input">
+            <label for="input-name"
+                   class="input__label visually-hidden">
+              Book name
+            </label>
+            <input type="text"
+                   class="input__field"
+                   id="input-name"
+                   placeholder="Name"
+                   required
+                   form="input-form">
+          </td>
+          <td class="input">
+            <label for="input-author"
+                   class="input__label visually-hidden">
+              Book author
+            </label>
+            <input type="text"
+                   class="input__field"
+                   id="input-author"
+                   placeholder="Author"
+                   required
+                   form="input-form">
+          </td>
+          <td class="input">
+            <label for="input-pages"
+                   class="input__label visually-hidden">
+              Book pages
+            </label>
+            <input type="number"
+                   class="input__field"
+                   id="input-pages"
+                   required
+                   form="input-form">
+          </td>
+          <td class="input">
+            <label for="input-read"
+                   class="input__label visually-hidden">
+              Book read
+            </label>
+            <input type="checkbox"
+                   class="input__field checkbox"
+                   id="input-read"
+                   form="input-form">
+          </td>
 
-          <tr id="add-row" class="table__row table__row--add">
-            <td colspan="6" data-cell="add">
-              <button
-                class="btn btn--main"
-                type="button"
-                id="btnAdd"
-                data-element="add"
-              >
-                +
-              </button>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-    </main>
-    <footer class="footer">
-      <p class="footer__text">
-        Made with &#10084; by ThirstyMango
-        <a
-          href="https://github.com/ThirstyMango/odin-library"
-          class="footer__link"
-        >
-          <img class="footer__icon" src="./imgs/github.svg" alt="github-svg" />
-        </a>
-      </p>
-    </footer>
-  </body>
+          <td class="input">
+            <button type="submit"
+                    class="btn btn--success"
+                    data-element="confirm"
+                    form="input-form">
+              &#x2714;
+            </button>
+            <button type="button"
+                    class="btn btn--alert"
+                    data-element="cancel">
+              &#x2715;
+            </button>
+          </td>
+        </tr>
+
+        <tr id="add-row"
+            class="table__row table__row--add">
+          <td colspan="6"
+              data-cell="add">
+            <button class="btn btn--main"
+                    type="button"
+                    id="btnAdd"
+                    data-element="add">
+              +
+            </button>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </main>
+  <footer class="footer">
+    <p class="footer__text">
+      Made with &#10084; by ThirstyMango
+      <a href="https://github.com/ThirstyMango/odin-library"
+         class="footer__link">
+        <img class="footer__icon"
+             src="./imgs/github.svg"
+             alt="github-svg">
+      </a>
+    </p>
+  </footer>
+</body>
+
 </html>

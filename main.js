@@ -118,8 +118,6 @@ const handleClick = function handleClick(e) {
       handleCancelClick();
       break;
   }
-
-  console.log(myLibrary.data);
 };
 
 // Add Event listener
