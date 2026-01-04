@@ -249,8 +249,6 @@ class DOM {
     this.showEl(el);
 
     // Hide after 3s
-    this.hideEl(el);
-    this.removeClasses(el, successCls, alertCls);
     this.#timeout = setTimeout(() => {
       this.hideEl(el);
       this.removeClasses(el, successCls, alertCls);
