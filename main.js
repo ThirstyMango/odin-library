@@ -1,10 +1,42 @@
 class Book {
+  #id;
+  #name;
+  #author;
+  #pages;
+  #read;
+
   constructor(name, author, pages, read) {
-    this.id = crypto.randomUUID();
-    this.name = name;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
+    this.#id = crypto.randomUUID();
+    this.#name = name;
+    this.#author = author;
+    this.#pages = pages;
+    this.#read = read;
+
+    Object.freeze(this);
+  }
+
+  get id() {
+    return this.#id;
+  }
+
+  get name() {
+    return this.#name;
+  }
+
+  get author() {
+    return this.#author;
+  }
+
+  get pages() {
+    return this.#pages;
+  }
+
+  get read() {
+    return this.#read;
+  }
+
+  set read(value) {
+    this.#read = Boolean(value);
   }
 }
 
@@ -124,17 +156,17 @@ class DOM {
       tr.classList.add("table__row");
       tr.setAttribute("data-id", book.id);
 
-      for (const [key, value] of Object.entries(book)) {
+      const keys = ["id", "name", "author", "pages", "read"];
+      for (const key of keys) {
         const td = document.createElement("td");
-
         // Create the inside of td
         switch (key) {
           case "read":
-            const checkboxEl = buildCheckboxEl(value, book.id);
+            const checkboxEl = buildCheckboxEl(book[key], book.id);
             td.appendChild(checkboxEl);
             break;
           default:
-            td.textContent = value;
+            td.textContent = book[key];
         }
 
         tr.appendChild(td);
@@ -145,11 +177,10 @@ class DOM {
       tdAction.appendChild(removeBtnEl);
 
       tr.appendChild(tdAction);
-
       return tr;
     };
 
-    return { buildCheckboxEl, buildRemoveBtnEl, buildBookEl };
+    return { buildBookEl };
   }
 
   #eventHandler() {
@@ -177,7 +208,7 @@ class DOM {
     const handleRemoveClick = (targetEl) => {
       const bookEl = targetEl.closest("tr");
       const bookId = bookEl.dataset.id;
-      const book = this.library.findBook(bookIde);
+      const book = this.library.findBook(bookId);
 
       if (
         !confirm(
