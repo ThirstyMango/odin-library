@@ -8,47 +8,58 @@ class Book {
   }
 }
 
+// Holds individual Book instances
 class Library {
-  #data = [];
+  #books = [];
 
-  constructor(...data) {
-    for (arg of arguments) {
-      this.#data.push(arg);
+  // an array of { name, author, pages, read }
+  constructor(...bookData) {
+    for (const packet of bookData) {
+      const book = new Book(...packet.values());
+      this.#books.push(book);
     }
   }
 
-  findById(id) {
-    return this.data.find((item) => item.id === item);
+  get books() {
+    return [...this.#books];
   }
 
-  addToLibrary(item) {
-    this.data.push(item);
+  findBook(id) {
+    return this.#books.find((book) => book.id === id);
   }
 
-  removeFromLibrary(id) {
-    this.data = this.data.filter((item) => item.id !== id);
+  // bookData = {name, author, pages, read}
+  addBook(bookData) {
+    const book = new Book(...bookData.values());
+    this.#books.push(book);
+  }
+
+  removeBook(id) {
+    this.#books = this.#books.filter((book) => book.id !== id);
   }
 }
 
+// DOM manipulation, rendering, event listeners...
 class DOM {
-  constructor() {
+  constructor(library) {
     this.cacheDom();
     this.bindEvents();
+    this.builder = this.#builder();
+    this.library = library;
   }
 
   cacheDom() {
-    this.table = document.querySelector(".table");
-    this.library = document.getElementById("library");
-    this.btnAdd = document.getElementById("btnAdd");
-    this.inputRow = document.getElementById("input-row");
-    this.addRow = document.getElementById("add-row");
-    this.inputId = document.getElementById("input-id");
-    this.inputName = document.getElementById("input-name");
-    this.inputAuthor = document.getElementById("input-author");
-    this.inputPages = document.getElementById("input-pages");
-    this.inputRead = document.getElementById("input-read");
-    this.messager = document.querySelector(".message");
-    this.builder = this.#builder();
+    this.tableEl = document.querySelector(".table");
+    this.libraryEl = document.getElementById("library");
+    this.btnAddEl = document.getElementById("btnAdd");
+    this.inputRowEl = document.getElementById("input-row");
+    this.addRowEl = document.getElementById("add-row");
+    this.inputIdEl = document.getElementById("input-id");
+    this.inputNameEl = document.getElementById("input-name");
+    this.inputAuthorEl = document.getElementById("input-author");
+    this.inputPagesEl = document.getElementById("input-pages");
+    this.inputReadEl = document.getElementById("input-read");
+    this.messagerEl = document.querySelector(".message");
   }
 
   // TODO - bind event listeners
@@ -110,26 +121,47 @@ class DOM {
     return { buildCheckboxEl, buildRemoveBtnEl, buildBookEl };
   }
 
-  renderBooks(...books) {
-    for (const book of books) {
+  renderLibrary() {
+    for (const book of this.library.books) {
       const bookEl = this.builder.buildBookEl(book);
-      this.library.appendChild(bookEl);
+      this.libraryEl.appendChild(bookEl);
     }
   }
 
   renderMessage(message, success = true) {
-    this.messager.textContent = message;
-    success
-      ? this.messager.classList.add("message--success")
-      : this.messager.classList.add("message--alert");
-    this.messager.classList.remove("hidden");
-    setTimeout(() => this.hideMessage(), "2000");
+    const [successCls, alertCls] = ["message--success", "message--alert"];
+    const el = this.messagerEl;
+    const stateCls = success ? successCls : alertCls;
+
+    this.setContent(el, message);
+    this.addClasses(el, stateCls);
+    this.showEl(el);
+
+    // Hide the message and remove classes after 2s
+    setTimeout(() => {
+      this.hideEl(el);
+      this.removeClasses(el, successCls, alertCls);
+    }, "2000");
   }
 
-  hideMessage() {
-    this.messager.classList.remove("message--success");
-    this.messager.classList.remove("message--alert");
-    this.messager.classList.add("hidden");
+  showEl(el) {
+    el.classList.remove("hidden");
+  }
+
+  hideEl(el) {
+    el.classList.add("hidden");
+  }
+
+  setContent(el, content) {
+    el.textContent = content;
+  }
+
+  removeClasses(el, ...classes) {
+    el.classList.remove(classes);
+  }
+
+  addClasses(el, ...classes) {
+    el.classList.add(classes);
   }
 
   #findBookElFromChild = function (childEl) {
@@ -141,13 +173,16 @@ class DOM {
 }
 
 const testingData = [
-  ["Hobit", "J.R.R. Tolkien", 219, true, 8],
-  ["Lord of the rings", "J.R.R. Tolkien", 111, false, 7],
-  ["Pentagram", "Jo Nesbo", 223, true, 9],
-  ["Golem", "Gustav Meyrink", 331, true, 3],
+  { name: "Hobit", author: "J.R.R. Tolkien", pages: 219, read: true },
+  {
+    name: "Lord of the rings",
+    author: "J.R.R. Tolkien",
+    pages: 111,
+    read: false,
+  },
+  { name: "Pentagram", author: "Jo Nesbo", pages: 223, read: true },
+  { name: "Golem", author: "Gustav Meyrink", pages: 331, read: false },
 ];
-
-testingData.forEach((bookData) => myLibrary.addBookToLibrary(...bookData));
 
 myView.displayLibrary(myLibrary.data, myDom.library);
 
