@@ -12,10 +12,9 @@ class Book {
 class Library {
   #books = [];
 
-  // an array of { name, author, pages, read }
-  constructor(...bookData) {
-    for (const packet of bookData) {
-      const book = new Book(...Object.values(packet));
+  constructor(...booksData) {
+    for (const { name, author, pages, read } of booksData) {
+      const book = new Book(name, author, pages, read);
       this.#books.push(book);
     }
   }
@@ -25,16 +24,20 @@ class Library {
   }
 
   findBook(id) {
-    return this.#books.find((book) => book.id === id);
+    const foundBook = this.#books.find((book) => book.id === id);
+
+    if (typeof foundBook === "undefined")
+      throw new Error("Unable to find the book");
+
+    return foundBook;
   }
 
-  // bookData = {name, author, pages, read}
-  addBook(bookData) {
-    if (!this.#isBookDataValid(...Object.values(bookData))) {
+  addBook({ name, author, pages, read }) {
+    if (!this.#isBookDataValid(name, author, pages, read)) {
       throw new Error("Book information invalid");
     }
 
-    const book = new Book(...Object.values(bookData));
+    const book = new Book(name, author, pages, read);
     this.#books.push(book);
     return book;
   }
@@ -72,7 +75,7 @@ class DOM {
     this.eventHandler = this.#eventHandler();
     this.library = library;
 
-    //Innit render
+    // Innit render
     this.renderLibrary();
   }
 
@@ -174,7 +177,6 @@ class DOM {
     const handleRemoveClick = (targetEl) => {
       const bookEl = targetEl.closest("tr");
       const bookId = bookEl.dataset.id;
-      const book = this.library.findBook(bookId);
 
       if (
         !confirm(
