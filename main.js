@@ -9,8 +9,8 @@ class Book {
     this.#id = crypto.randomUUID();
     this.#name = name;
     this.#author = author;
-    this.#pages = pages;
-    this.#read = read;
+    this.#pages = Number(pages);
+    this.#read = Boolean(read);
 
     Object.freeze(this);
   }
@@ -35,7 +35,7 @@ class Book {
     return this.#read;
   }
 
-  set read(value) {
+  setRead(value) {
     this.#read = Boolean(value);
   }
 }
@@ -84,7 +84,7 @@ class Library {
 
   toggleRead(id) {
     const book = this.findBook(id);
-    book.read = !book.read;
+    book.setRead(!book.read);
   }
 
   #isBookDataValid(name, author, pages, read) {
@@ -103,8 +103,6 @@ class DOM {
   constructor(library) {
     this.cacheDom();
     this.bindEvents();
-    this.builder = this.#builder();
-    this.eventHandler = this.#eventHandler();
     this.library = library;
 
     // Init render
@@ -126,12 +124,10 @@ class DOM {
   }
 
   bindEvents() {
-    this.tableEl.addEventListener("click", (e) =>
-      this.eventHandler.handleClick(e)
-    );
+    this.tableEl.addEventListener("click", (e) => this.handleClick(e));
   }
 
-  #builder() {
+  buildBookEl(book) {
     const buildCheckboxEl = (value, id) => {
       const checkboxEl = document.createElement("input");
       checkboxEl.classList.add("checkbox");
@@ -151,112 +147,109 @@ class DOM {
       return removeBtnEl;
     };
 
-    const buildBookEl = (book) => {
-      const tr = document.createElement("tr");
-      tr.classList.add("table__row");
-      tr.setAttribute("data-id", book.id);
+    const tr = document.createElement("tr");
+    tr.classList.add("table__row");
+    tr.setAttribute("data-id", book.id);
 
-      const keys = ["id", "name", "author", "pages", "read"];
-      for (const key of keys) {
-        const td = document.createElement("td");
-        // Create the inside of td
-        switch (key) {
-          case "read":
-            const checkboxEl = buildCheckboxEl(book[key], book.id);
-            td.appendChild(checkboxEl);
-            break;
-          default:
-            td.textContent = book[key];
-        }
-
-        tr.appendChild(td);
+    const keys = ["id", "name", "author", "pages", "read"];
+    for (const key of keys) {
+      const td = document.createElement("td");
+      // Create the inside of td
+      switch (key) {
+        case "read":
+          const checkboxEl = buildCheckboxEl(book[key], book.id);
+          td.appendChild(checkboxEl);
+          break;
+        default:
+          td.textContent = book[key];
       }
 
-      const tdAction = document.createElement("td");
-      const removeBtnEl = buildRemoveBtnEl();
-      tdAction.appendChild(removeBtnEl);
+      tr.appendChild(td);
+    }
 
-      tr.appendChild(tdAction);
-      return tr;
-    };
+    const tdAction = document.createElement("td");
+    const removeBtnEl = buildRemoveBtnEl();
+    tdAction.appendChild(removeBtnEl);
 
-    return { buildBookEl };
+    tr.appendChild(tdAction);
+    return tr;
   }
 
-  #eventHandler() {
-    const handleClick = (e) => {
-      const targetType = e.target.dataset.element;
-      switch (targetType) {
-        case "read":
-          handleReadClick(e.target);
-          break;
-        case "remove":
-          handleRemoveClick(e.target);
-          break;
-        case "confirm":
-          handleConfirmClick(e);
-          break;
-        case "add":
-          handleAddClick();
-          break;
-        case "cancel":
-          handleCancelClick();
-          break;
-      }
-    };
+  handleClick(e) {
+    const targetType = e.target.dataset.element;
+    switch (targetType) {
+      case "read":
+        this.handleReadClick(e.target);
+        break;
+      case "remove":
+        this.handleRemoveClick(e.target);
+        break;
+      case "confirm":
+        this.handleConfirmClick(e);
+        break;
+      case "add":
+        this.handleAddClick();
+        break;
+      case "cancel":
+        this.handleCancelClick();
+        break;
+    }
+  }
 
-    const handleRemoveClick = (targetEl) => {
-      const bookEl = targetEl.closest("tr");
-      const bookId = bookEl.dataset.id;
-      const book = this.library.findBook(bookId);
+  handleRemoveClick(targetEl) {
+    const bookEl = targetEl.closest("tr");
+    const bookId = bookEl.dataset.id;
+    const book = this.library.findBook(bookId);
 
-      if (
-        !confirm(
-          `Do you wish to remove ${book.name} by ${book.author} from the library?`
-        )
+    if (
+      !confirm(
+        `Do you wish to remove ${book.name} by ${book.author} from the library?`
       )
-        return;
+    )
+      return;
 
-      this.library.removeBook(bookId);
-      bookEl.remove();
-      this.renderMessage("Succesfully removed", true);
-    };
+    this.library.removeBook(bookId);
+    bookEl.remove();
+    this.renderMessage("Succesfully removed", true);
+  }
 
-    const handleReadClick = (targetEl) => {
-      const bookEl = targetEl.closest("tr");
-      const bookId = bookEl.dataset.id;
+  handleReadClick = (targetEl) => {
+    const bookEl = targetEl.closest("tr");
+    const bookId = bookEl.dataset.id;
+    try {
       this.library.toggleRead(bookId);
-    };
+      this.renderMessage("Succesfully marked", true);
+    } catch (err) {
+      this.renderMessage(err.message, false);
+    }
+  };
 
-    const handleConfirmClick = (e) => {
-      e.preventDefault();
-      const newBookData = this.#getFormData();
-      try {
-        const newBook = this.library.addBook(newBookData);
-        this.renderBook(newBook);
-      } catch (err) {
-        this.renderMessage(err.message, false);
-        return;
-      }
+  handleConfirmClick(e) {
+    e.preventDefault();
+    const newBookData = this.#getFormData();
+    try {
+      const newBook = this.library.addBook(newBookData);
+      this.renderBook(newBook);
+    } catch (err) {
+      this.renderMessage(err.message, false);
+      return;
+    }
 
-      this.#clearFormData();
-      this.renderMessage("Book added", true);
-      this.hideEl(this.inputRowEl);
-      this.showEl(this.addRowEl);
-    };
+    this.#clearFormData();
+    this.renderMessage("Book added", true);
+    this.hideEl(this.inputRowEl);
+    this.showEl(this.addRowEl);
+  }
 
-    const handleAddClick = () => {
-      this.showEl(this.inputRowEl);
-      this.hideEl(this.addRowEl);
-    };
+  handleAddClick() {
+    this.showEl(this.inputRowEl);
+    this.hideEl(this.addRowEl);
+  }
 
-    const handleCancelClick = () => {
-      this.showEl(this.addRowEl);
-      this.hideEl(this.inputRowEl);
-      this.#clearFormData();
-    };
-
-    return { handleClick };
+  handleCancelClick() {
+    this.showEl(this.addRowEl);
+    this.hideEl(this.inputRowEl);
+    this.#clearFormData();
   }
 
   renderLibrary() {
@@ -264,7 +257,7 @@ class DOM {
   }
 
   renderBook(book) {
-    const bookEl = this.builder.buildBookEl(book);
+    const bookEl = this.buildBookEl(book);
     this.libraryEl.appendChild(bookEl);
   }
 
