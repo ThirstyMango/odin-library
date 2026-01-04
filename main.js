@@ -43,23 +43,23 @@ class Library {
   }
 
   removeBook(id) {
+    const initLength = this.#books.length;
     this.#books = this.#books.filter((book) => book.id !== id);
+
+    if (this.#books.length === initLength)
+      throw new Error("Unable to locate the book to remove");
   }
 
-  setBookParam(id, key, value) {
+  toggleRead(id) {
     const book = this.findBook(id);
-    book[key] = value;
+    book.read = !book.read;
   }
 
   #isBookDataValid(name, author, pages, read) {
     const isNameValid = name.length > 0;
     const isAuthorValid = author.length > 0;
     const isReadValid = typeof read === "boolean";
-    const isPagesValid =
-      pages !== "" &&
-      pages !== " " &&
-      !isNaN(pages) &&
-      Number.isInteger(parseFloat(pages));
+    const isPagesValid = !isNaN(pages) && Number.isInteger(parseFloat(pages));
 
     return isNameValid && isAuthorValid && isReadValid && isPagesValid;
   }
@@ -75,7 +75,7 @@ class DOM {
     this.eventHandler = this.#eventHandler();
     this.library = library;
 
-    // Innit render
+    // Init render
     this.renderLibrary();
   }
 
@@ -90,7 +90,7 @@ class DOM {
     this.inputAuthorEl = document.getElementById("input-author");
     this.inputPagesEl = document.getElementById("input-pages");
     this.inputReadEl = document.getElementById("input-read");
-    this.messagerEl = document.querySelector(".message");
+    this.messageEl = document.querySelector(".message");
   }
 
   bindEvents() {
@@ -177,6 +177,7 @@ class DOM {
     const handleRemoveClick = (targetEl) => {
       const bookEl = targetEl.closest("tr");
       const bookId = bookEl.dataset.id;
+      const book = this.library.findBook(bookIde);
 
       if (
         !confirm(
@@ -193,7 +194,7 @@ class DOM {
     const handleReadClick = (targetEl) => {
       const bookEl = targetEl.closest("tr");
       const bookId = bookEl.dataset.id;
-      this.library.setBookParam(bookId, "read", targetEl.checked);
+      this.library.toggleRead(bookId);
     };
 
     const handleConfirmClick = (e) => {
@@ -238,11 +239,11 @@ class DOM {
 
   renderMessage(message, success = true) {
     const [successCls, alertCls] = ["message--success", "message--alert"];
-    const el = this.messagerEl;
+    const el = this.messageEl;
     const stateCls = success ? successCls : alertCls;
 
-    // Cancel the previous hiding interval and reset the state of messagerEl
-    clearInterval(this.#timeout);
+    // Cancel the previous hiding interval and reset the state of messageEl
+    clearTimeout(this.#timeout);
     this.removeClasses(el, successCls, alertCls);
 
     // Display the message
@@ -282,7 +283,7 @@ class DOM {
     const author = this.inputAuthorEl.value;
     const pages = this.inputPagesEl.value;
     const read = this.inputReadEl.checked;
-    return [name, author, pages, read];
+    return { name, author, pages, read };
   }
 
   #clearFormData() {
